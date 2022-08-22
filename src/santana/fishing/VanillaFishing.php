@@ -91,7 +91,7 @@ final class VanillaFishing extends PluginBase
                 return clone $data["item"];
             }
         }
-        return VanillaItems::AIR();
+            return ItemFactory::air();
     }
 
     /**
