@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace santana\fishing\entity;
 
+use pocketmine\block\Air;
 use pocketmine\entity\Entity;
 use pocketmine\entity\EntitySizeInfo;
 use pocketmine\entity\projectile\Projectile;
@@ -61,11 +62,6 @@ final class FishingHook extends Projectile
      * @var Vector3|null
      */
     public ?Vector3 $fish = null;
-
-    /**
-     * @var float
-     */
-    protected $gravity = 0.05;
 
     /**
      * @return string
@@ -308,8 +304,8 @@ final class FishingHook extends Projectile
     public function getWaterHeight(): int
     {
         for ($y = $this->getPosition()->getFloorY(); $y < 256; $y++) {
-            $id = $this->getWorld()->getBlockAt($this->getPosition()->getFloorX(), $y, $this->getPosition()->getFloorZ());
-            if ($id->getId() == 0) {
+            $block = $this->getWorld()->getBlockAt($this->getPosition()->getFloorX(), $y, $this->getPosition()->getFloorZ());
+            if ($block instanceof Air) {
                 return $y;
             }
         }
@@ -457,4 +453,14 @@ final class FishingHook extends Projectile
 //      Vanilla: $this->waitingTimer = mt_rand(100, 600);
         $this->waitingTimer = mt_rand(20, 40);
     }
+
+    /**
+     * @return float
+     */
+    protected function getInitialDragMultiplier(): float { return 0.02; }
+
+    /**
+     * @return float
+     */
+    protected function getInitialGravity(): float { return 0.05; }
 }

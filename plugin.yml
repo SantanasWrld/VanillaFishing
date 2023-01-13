@@ -1,6 +1,6 @@
 name: VanillaFishing
 main: santana\fishing\VanillaFishing
-version: 0.8.7
-api: [ 4.0.0 ]
+version: 0.8.8
+api: 5.0.0
 description: "A Simplistic Plugin to Implement Vanilla Fishing to your Minecraft: Bedrock Server."
 load: POSTWORLD
