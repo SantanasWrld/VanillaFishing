@@ -11,6 +11,7 @@ use pocketmine\item\Releasable;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use santana\fishing\entity\FishingHook;
+use pocketmine\world\sound\ThrowSound;
 
 final class FishingRod extends Durable implements Releasable
 {
@@ -95,6 +96,7 @@ final class FishingRod extends Durable implements Releasable
                 $hook->close();
             } else {
                 $hook->spawnToAll();
+                $location->getWorld()->addSound($location, new ThrowSound(), [$player]);
                 self::setHooked($player, $hook);
             }
         }
