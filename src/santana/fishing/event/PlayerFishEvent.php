@@ -17,7 +17,7 @@ final class PlayerFishEvent extends PlayerEvent implements Cancellable
     /**
      * @var Player
      */
-    protected $player;
+    protected Player $player;
 
     /**
      * @var Item

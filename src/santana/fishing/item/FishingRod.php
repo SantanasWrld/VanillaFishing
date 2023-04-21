@@ -67,9 +67,10 @@ final class FishingRod extends Durable implements Releasable
     /**
      * @param Player $player
      * @param Vector3 $directionVector
+     * @param array $returnedItems
      * @return ItemUseResult
      */
-    public function onClickAir(Player $player, Vector3 $directionVector): ItemUseResult
+    public function onClickAir(Player $player, Vector3 $directionVector, array &$returnedItems): ItemUseResult
     {
         $hook = self::getHooked($player);
         if ($hook !== null and $hook->isFlaggedForDespawn() == false) {
