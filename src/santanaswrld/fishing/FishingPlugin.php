@@ -82,14 +82,19 @@ final class FishingPlugin extends PluginBase
      */
     protected function onEnable(): void
     {
-        //TODO: Register Everything
+        $itemDeserializer = GlobalItemDataHandlers::getDeserializer();
         $fishingRod = new FishingRod(new ItemIdentifier(ItemTypeIds::FISHING_ROD), "Fishing Rod");
+        $itemDeserializer->map('minecraft:fishing_rod', fn() => clone $fishingRod);
         CreativeInventory::getInstance()->add($fishingRod);
         StringToItemParser::getInstance()->override("fishing_rod", fn() => $fishingRod);
-        GlobalItemDataHandlers::getDeserializer()->map(ItemTypeNames::FISHING_ROD, fn() => clone $fishingRod);
+        $reflectionDeserializer = new ReflectionClass($itemDeserializer);
+        $reflectionProperty3 = $reflectionDeserializer->getProperty("deserializers");
+        $reflectionProperty3->setAccessible(true);
+        $itemDeserializer->map('minecraft:fishing_rod', function (SavedItemData $data) use ($fishingRod) {
+            $newFishingRod = new FishingRod(new ItemIdentifier(ItemTypeIds::FISHING_ROD), "Fishing Rod");
+            return clone $fishingRod;
+        });
         Utility::ensureFile();
-
-        // Start
         $itemSerializer = GlobalItemDataHandlers::getSerializer();
         $reflectionSerializer = new ReflectionClass($itemSerializer);
         $reflectionProperty = $reflectionSerializer->getProperty("itemSerializers");
@@ -103,9 +108,6 @@ final class FishingPlugin extends PluginBase
         $reflectionProperty2 = $reflectionHandler->getProperty("itemSerializer");
         $reflectionProperty2->setAccessible(true);
         $reflectionProperty2->setValue(GlobalItemDataHandlers::class, $itemSerializer);
-
-        $reflectionDeserializer = deserializer
-        // End
     }
 
     /**
